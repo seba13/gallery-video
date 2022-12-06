@@ -94,8 +94,12 @@
 
                 let relativePath = './assets/videos/' + anchor.dataset.url
 
-                if (mainVideo.getAttribute('src') != relativePath && mainVideo.firstElementChild.getAttribute('src') != relativePath) {
 
+                let imgUrl = event.target.querySelector('a img')
+                
+                if (mainVideo.getAttribute('src') != relativePath && mainVideo.firstElementChild.getAttribute('src') != relativePath) {
+                    mainVideo.style.backgroundImage = `url(${imgUrl.getAttribute('src')})`
+                    mainVideo.style.backgroundSize = `cover`
                     mainVideo.src = relativePath
                     mainVideo.firstElementChild.src = relativePath
                 }
