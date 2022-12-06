@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>video gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <main>
+
+
+        <video autoplay muted loop class="video">
+            <source src="./assets/videos/video1.mp4" type="video/mp4">
+        </video>
+
+
+        <div class="carrusel">
+            <div class="button left"><i class="fa-solid fa-angle-left"></i></div>
+            <div class="button right"><i class="fa-solid fa-angle-right"></i></div>
+
+            <ul class="gallery-cover">
+                <li><a href="#" data-url="video1.mp4"><img width="150" height="150" src="assets/images/image1.png"
+                            alt="" onclick="return false"></a>
+                </li>
+                <li><a href="#" data-url="video2.mp4"><img width="150" height="150" src="assets/images/image2.png"
+                            alt="" onclick="return false"></a>
+                </li>
+                <li><a href="#" data-url="video3.mp4"><img width="150" height="150" src="assets/images/image3.png"
+                            alt="" onclick="return false"></a>
+                </li>
+                <li><a href="#" data-url="video4.mp4"><img width="150" height="150" src="assets/images/image4.png"
+                            alt="" onclick="return false"></a>
+                </li>
+                <li><a href="#" data-url="video5.mp4"><img width="150" height="150" src="assets/images/image5.png"
+                            alt="" onclick="return false"></a>
+                </li>
+                <li><a href="#" data-url="video6.mp4"><img width="150" height="150" src="assets/images/image6.png"
+                            alt="" onclick="return false"></a>
+                </li>
+
+                <li><a href="#" data-url="video7.mp4"><img width="150" height="150" src="assets/images/image7.png"
+                            alt="" onclick="return false"></a>
+                </li>
+                <li><a href="#" data-url="video8.mp4"><img width="150" height="150" src="assets/images/image8.png"
+                            alt="" onclick="return false"></a>
+                </li>
+                <li><a href="#" data-url="video9.mp4"><img width="150" height="150" src="assets/images/image9.png"
+                            alt="" onclick="return false"></a>
+                </li>
+                <li><a href="#" data-url="video10.mp4"><img width="150" height="150" src="assets/images/image10.png"
+                            alt="" onclick="return false"></a>
+                </li>
+                <li><a href="#" data-url="video11.mp4"><img width="150" height="150" src="assets/images/image11.png"
+                            alt="" onclick="return false"></a>
+                </li>
+              
+            </ul>
+
+        </div>
+
+    </main>
+
+
+
+    <script>
+
+        let mainVideo = document.querySelector('main video')
+        // let listImages = Array.from( document.querySelectorAll('.gallery-cover li a img') )
+        let styleRoot = document.documentElement
+
+
+
+        let main = document.querySelector('main .gallery-cover')
+        let listLi = main.getElementsByTagName('li')
+
+
+        main.addEventListener('pointerdown', changeVideo)
+        main.addEventListener('pointermove', hover)
+        document.body.addEventListener('mousedown', slide)
+
+
+        function changeVideo(event) {
+
+            if (event.target.tagName == 'LI') {
+
+                let anchor = event.target.firstElementChild
+
+                let relativePath = './assets/videos/' + anchor.dataset.url
+
+                if (mainVideo.getAttribute('src') != relativePath && mainVideo.firstElementChild.getAttribute('src') != relativePath) {
+
+                    mainVideo.src = relativePath
+                    mainVideo.firstElementChild.src = relativePath
+                }
+
+            }
+
+        }
+
+
+        function pointerLeave(event) {
+
+
+            if (event.pointerType == 'touch') {
+                setTimeout(() => {
+                    // event.target.style.setProperty('--y', '0%')
+                    // event.target.style.setProperty('--scale', '1')
+
+                    styleRoot.style.setProperty('--y', '0%')
+                    styleRoot.style.setProperty('--scale', '1')
+                    event.target.classList.remove('active')
+                }, 500)
+            } else {
+                // event.target.style.setProperty('--y', '0%')
+                // event.target.style.setProperty('--scale', '1')
+                styleRoot.style.setProperty('--y', '0%')
+                styleRoot.style.setProperty('--scale', '1')
+                event.target.classList.remove('active')
+            }
+
+
+
+            event.target.removeEventListener('pointerleave', pointerLeave)
+        }
+
+
+
+
+        function hover(event) {
+            if (event.target.closest('li')) {
+
+                let el = event.target.closest('li')
+
+
+                if (!el.classList.contains('active')) {
+                    el.classList.add('active')
+
+                    // el.style.setProperty('--y', '-50%')
+                    // el.style.setProperty('--scale', '1.2')
+
+                    styleRoot.style.setProperty('--y', '-50%')
+                    styleRoot.style.setProperty('--scale', '1.2')
+
+                }
+
+                el.addEventListener('pointerleave', pointerLeave)
+
+            }
+        }
+
+
+        let cant = (main.offsetWidth - 60) / (150 + 60)
+        let count = 1
+        let retroceso = false
+        let isInTransition = false
+
+
+        function slide(event) {
+
+
+
+
+
+            if (event.target.closest('.button')) {
+
+                let btn = event.target.closest('.button')
+                let posX
+
+                // widtg img 150 + marginleft 60
+
+                //elementos visibles => 
+
+
+                //  console.log(cant);
+                // console.log(main.scrollWidth);
+                // console.log(main.offsetWidth);
+                // console.log(listLi.length);
+
+
+
+
+
+                if (btn.classList.contains('left')) {
+                    count--
+
+
+                    reorder()
+
+
+
+                    posX = parseInt(getComputedStyle(styleRoot).getPropertyValue('--x'))
+
+                    console.log(posX);
+
+                    // if(posX == 0) {
+                    //     posX = -60
+                    // }else {
+                    //     posX += 60
+                    // }
+
+
+                    styleRoot.style.setProperty('--transition', 'transform .5s ease, scale .5s ease')
+                    styleRoot.style.setProperty('--x', (posX) + (cant * (210) + 60) + 'px')
+
+
+
+
+
+                } else
+                    if (btn.classList.contains('right')) {
+                        count++
+                        reorder()
+
+
+                        posX = parseInt(getComputedStyle(styleRoot).getPropertyValue('--x'))
+
+                        if (posX == 0) {
+                            posX = 60
+                        }
+
+
+                        styleRoot.style.setProperty('--transition', 'transform .5s ease, scale .5s ease')
+                        styleRoot.style.setProperty('--x', (posX) - (cant * (210) + 60) + 'px')
+
+
+                        // posX = parseInt(getComputedStyle(styleRoot).getPropertyValue('--x'))
+
+                        // styleRoot.style.setProperty('--transition', 'transform .5s ease, scale .5s ease')
+                        // styleRoot.style.setProperty('--x', posX - 1320 + 'px')
+                        // console.log("right");
+                    }
+
+
+                isInTransition = false
+
+            }
+
+
+        }
+
+        main.addEventListener('trasitionend', () => {
+
+        })
+
+
+
+        function reorder() {
+
+            if (isInTransition) return
+
+            let posX = parseInt(getComputedStyle(styleRoot).getPropertyValue('--x'))
+            let arrayLi = Array.from(listLi)
+
+            console.log(count);
+            console.log(listLi.length);
+            if (count == 0) {
+                isInTransition = true
+                console.log("izq");
+                main.prepend(...arrayLi.slice(-cant))
+
+
+                console.log((posX) + ((150 + 60) * cant));
+
+                styleRoot.style.setProperty('--transition', 'none')
+                styleRoot.style.setProperty('--x', (posX) - ((150 + 60) * cant + 60) + 'px')
+
+                count++
+
+            } else
+                if (count == 1 && retroceso) {
+                    let numElements = listLi.length % cant // numero de elementos disponibles a scrollear
+
+                    isInTransition = true
+                    console.log("retroceso");
+
+                    let elementsRestantes = cant - numElements
+
+
+                    main.append(...arrayLi.slice(0, elementsRestantes))
+
+
+                    styleRoot.style.setProperty('--transition', 'none')
+                    styleRoot.style.setProperty('--x', (posX) - ((150 + 60) * elementsRestantes + 60) + 'px')
+                    retroceso = false
+                }
+                else
+                    if (count == Math.round(listLi.length / cant)) {
+                        isInTransition = true
+                        console.log("derecha");
+
+                        let numElements = listLi.length % cant // numero de elementos disponibles a scrollear
+
+
+                        console.log(Math.round(listLi.length / cant));
+
+                        let elementsRestantes = cant - numElements
+
+
+                        main.append(...arrayLi.slice(0, elementsRestantes))
+
+
+                        styleRoot.style.setProperty('--transition', 'none')
+                        styleRoot.style.setProperty('--x', (posX) + ((150 + 60) * elementsRestantes + 60) + 'px')
+                        retroceso = true
+                        // count--
+
+                    } else
+                        if (count > Math.round(listLi.length / cant)) {
+
+                            isInTransition = true
+                            console.log("derecha 2");
+                            main.append(...arrayLi.slice(0, cant))
+
+
+                            styleRoot.style.setProperty('--transition', 'none')
+                            styleRoot.style.setProperty('--x', (posX) + ((150 + 60) * cant + 60) + 'px')
+
+                            retroceso = true
+                            count--;
+                        }
+
+            isInTransition = false
+        }
+
+
+
+
+    </script>
+
+
+
+</body>
+
+</html>

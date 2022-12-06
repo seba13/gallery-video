@@ -1,0 +1,182 @@
+:root
+{
+    --x : 0px;
+    --transition : transform .5s ease, scale .5s ease;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+
+
+    width: 100%;
+    height: 100vh;
+
+}
+
+main {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+
+/* Nota: el navegador al renderizar las imagenes o videos
+considera estos elementos como display inline 
+el cual hereda line-height y font size
+*/
+main .video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    /* position: absolute; */
+    object-fit: cover;
+    object-position: center;
+    pointer-events: none;
+}
+
+
+
+.carrusel
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+}
+
+.carrusel .button
+{
+    font-size: 2.5rem;
+    height: auto;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.647);
+    border-radius: 6px;
+    transform: translateY(calc(50%));
+    padding: 10px 15px;
+    margin-left: 50px;
+    margin-right: 50px;
+    cursor: pointer;
+}
+
+.carrusel .button:hover
+{
+    background-color: rgba(255, 255, 255, 0.647);
+    color: #000;
+}
+
+.carrusel .button:nth-child(2) {
+    order: 2;
+}
+
+
+
+
+
+.gallery-cover {
+    width: 1320px;
+    height: 327px;
+    display: flex;
+    /* gap: 30px; */
+    justify-content: flex-start;
+    align-items: flex-end;
+    list-style: none;
+    overflow: hidden;
+
+}
+
+
+
+.gallery-cover li 
+{
+    margin-left: 60px;
+    /* margin-right: 60px; */
+    margin-bottom: 50px;
+    transform: translate(var(--x), 0%) scale(1);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+/* .gallery-cover li:nth-child(6n) 
+{
+    margin-right: 60px;
+} */
+
+
+
+.gallery-cover li.active {
+    transform: translate( var(--x), var(--y) ) scale( var(--scale) );
+}
+
+.gallery-cover li a{
+    pointer-events: none;
+}
+
+.gallery-cover li a img {
+    /* width: 150px; */
+    /* height: 150px; */
+    object-fit: cover;
+    border: 3px solid white;
+    
+    /* touch-action: none; */
+}
+
+.gallery-cover li:first-child 
+{
+    /* margin-left: 30px; */
+}
+
+.gallery-cover li:last-child 
+{
+    /* margin-right: 30px; */
+}
+
+
+
+
+@media screen and (max-width:1250px) {
+    .gallery-cover {
+        /* height: 310px; */
+        justify-content: flex-start;
+        gap: 30px;
+        overflow-x: auto;
+        width: auto;
+       
+    }
+
+    .carrusel .button
+    {
+        display: none;
+    }
+    .gallery-cover li
+    {
+        /* margin-bottom: 50px; */
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+
+    /* 3 debido a que antes está el btn left y right */
+    .gallery-cover li:nth-child(3)
+    {
+        margin-left: 30px;
+    }
+
+    .gallery-cover li:last-child 
+    {
+        margin-right: 30px;
+    }
+
+    .gallery-cover .button
+    {
+        display: none;
+    }
+
+}
